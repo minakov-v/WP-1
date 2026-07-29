@@ -270,6 +270,15 @@ input, select, textarea { font: inherit; }
   width: 100%;
   z-index: 100;
   background: transparent;
+  transition: top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s ease;
+}
+
+.site-nav.is-scrolled {
+  background: var(--background-bg-black);
+}
+
+.site-nav.is-hidden {
+  top: -96px;
 }
 
 .nav-inner {
@@ -301,6 +310,62 @@ input, select, textarea { font: inherit; }
   height: 2px;
   background: var(--typography-t-10);
   border-radius: 1px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Burger → X: middle bar fades out, top/bottom meet at center and rotate */
+.nav-burger.is-active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-burger.is-active span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav-burger.is-active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Full-screen menu overlay */
+.nav-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-bg-black);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.nav-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.nav-menu-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 3vw, 32px);
+}
+
+.nav-menu-links a {
+  font-family: 'Satoshi', sans-serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 500;
+  color: var(--typography-t-10);
+}
+
+.nav-menu-links a:hover {
+  color: var(--primary-pr-orange);
+}
+
+body.nav-open {
+  overflow: hidden;
 }
 
 
@@ -728,7 +793,7 @@ input, select, textarea { font: inherit; }
   left: 50%;
   bottom: 8%;
   transform: translateX(-50%);
-  width: 60%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -751,7 +816,7 @@ input, select, textarea { font: inherit; }
 }
 
 .team-caption-line1 {
-  font-size: clamp(10px, 1.5vw, 16px);
+  font-size: clamp(12px, 1.5vw, 16px);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   opacity: 0.9;
@@ -759,7 +824,7 @@ input, select, textarea { font: inherit; }
 
 .team-caption-line2,
 .team-caption-line3 {
-  font-size: clamp(9px, 1.2vw, 14px);
+  font-size: clamp(12px, 1.2vw, 14px);
   font-weight: 300;
   opacity: 0.8;
 }
@@ -815,7 +880,7 @@ input, select, textarea { font: inherit; }
 .phases {
   position: relative;
   overflow: clip;
-  background: var(--background-bg-white);
+  background: var(--background-bg-grey);
   color: var(--typography-t-90);
 }
 
@@ -1567,7 +1632,7 @@ input, select, textarea { font: inherit; }
 .footer-giant {
   width: 110%;
   margin-left: -5%;
-  transform: translateY(5%);
+  transform: translateY(20%);
   line-height: 0;
 }
 
@@ -1575,6 +1640,140 @@ input, select, textarea { font: inherit; }
   display: block;
   width: 100%;
   height: auto;
+}
+
+
+/* =============================================
+   PROJECTS
+   ============================================= */
+
+.projects {
+  background: var(--background-bg-grey);
+  color: var(--typography-t-90);
+}
+
+.projects-inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 52px);
+  padding-top: clamp(36px, 6vw, 60px);
+  padding-bottom: clamp(36px, 6vw, 60px);
+}
+
+.projects-title {
+  text-align: center;
+}
+
+.projects-stack {
+  position: relative;
+}
+
+/* Pure CSS stacking: each card is sticky with a bigger top offset than
+   the last, so it pins 40px lower and covers all but a 40px sliver of
+   the card(s) behind it. Bottom margin gives each earlier card enough
+   scroll room, growing by one 40px step per position from the end.
+   JS (below) only handles the scale/dim of covered cards. */
+.project-card {
+  position: sticky;
+  width: 100%;
+  max-width: 834px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--background-bg-grey);
+  transform-origin: top center;
+  will-change: transform, opacity;
+}
+
+.project-card:nth-child(1) {
+  top: 120px;
+  z-index: 1;
+  margin-bottom: 80px;
+}
+.project-card:nth-child(2) {
+  top: 160px;
+  z-index: 2;
+  margin-bottom: 40px;
+}
+.project-card:nth-child(3) {
+  top: 200px;
+  z-index: 3;
+}
+
+.project-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 834 / 446;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+/* Darkening overlay for receded cards — kept separate from the card's own
+   transform so the button's corner-square decoration never gets scaled
+   through a filter (that combo caused a rendering artifact). */
+.project-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: var(--dim, 0);
+  pointer-events: none;
+}
+
+.project-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  background: var(--background-bg-black);
+  color: var(--typography-t-10);
+  font-family: var(--font-h4-family);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.38px;
+}
+
+.project-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 40px;
+}
+
+.project-index {
+  color: var(--typography-t-90);
+  opacity: 0.35;
+  flex-shrink: 0;
+}
+
+.project-name {
+  flex-shrink: 0;
+  color: var(--typography-t-90);
+  white-space: nowrap;
+}
+
+.project-desc {
+  flex: 1 1 260px;
+  color: var(--typography-t-90);
+}
+
+.project-link {
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.project-link svg {
+  width: 14px;
+  height: 14px;
 }
 
 
@@ -1693,6 +1892,34 @@ input, select, textarea { font: inherit; }
   .team-panel {
     width: 90%;
     top: 40%;
+  }
+
+  .project-info {
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 12px;
+  }
+  .project-name {
+    white-space: normal;
+  }
+  .project-desc {
+    flex: none;
+  }
+  .project-link {
+    width: 100%;
+  }
+
+  .faq-cta-btn {
+    width: 100%;
+  }
+
+  .h4 {
+    font-size: 18px;
+  }
+
+  .team-panel-role {
+    font-size: 16px;
   }
 
   .faq-contact {

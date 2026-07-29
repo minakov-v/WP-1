@@ -13,20 +13,33 @@
     <nav class="site-nav">
       <div class="nav-inner container">
         <a href="/" class="nav-logo" aria-label="Pinxit — home">
-          <img src="images/logo.svg" alt="Pinxit" width="75" height="24" />
+          <img src="images/logo.svg" alt="Pinxit" width="75" height="24" loading="lazy" />
         </a>
-        <button class="nav-burger" aria-label="Open menu" aria-expanded="false">
+        <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
           <span></span>
           <span></span>
           <span></span>
         </button>
+      </div>
+
+      <div class="nav-menu" id="nav-menu">
+        <nav class="nav-menu-links" aria-label="Main menu">
+          <a href="/">Home</a>
+          <a href="#">Portfolio</a>
+          <a href="#">About Us</a>
+          <a href="#">How it works</a>
+          <a href="#">Career</a>
+          <a href="#">Awards</a>
+          <a href="#">Testimonials</a>
+          <a href="#contact">Contact Us</a>
+        </nav>
       </div>
     </nav>
 
     <main class="main-wrapper">
 
       <section class="hero">
-        <img src="images/hero-bg.webp" alt="" class="hero-bg-img" aria-hidden="true" />
+        <img src="images/hero-bg.webp" alt="" class="hero-bg-img" aria-hidden="true" loading="eager" />
         <div class="container hero-inner">
           <h1 class="h1 hero-title">A WordPress site that doesn't&nbsp;look like WordPress</h1>
           <p class="subtitle hero-subtitle">Premium design and clean code on the CMS your team already knows. We redesign and rebuild WordPress sites for brands that want to stop looking like a template.</p>
@@ -36,27 +49,27 @@
             <div class="hero-card hero-card--design">
               <div class="hc-header">Custom Design</div>
               <div class="hc-body">
-                <img src="images/hero-1.svg" alt="" class="hc-img" />
+                <img src="images/hero-1.svg" alt="" class="hc-img" loading="eager" />
               </div>
             </div>
 
             <div class="hero-card hero-card--code">
               <div class="hc-header">Clean Development</div>
               <div class="hc-body">
-                <img src="images/hero-2.svg" alt="" class="hc-img" />
+                <img src="images/hero-2.svg" alt="" class="hc-img" loading="eager" />
               </div>
             </div>
 
             <div class="hero-card hero-card--perf">
               <div class="hc-header">Performance That Pays Off</div>
               <div class="hc-body">
-                <img src="images/hero-3.svg" alt="" class="hc-img" />
+                <img src="images/hero-3.svg" alt="" class="hc-img" loading="eager" />
               </div>
             </div>
 
           </div><!-- /hero-cards -->
         </div>
-        <img src="images/hero-blur.webp" alt="" class="hero-blur-img" aria-hidden="true" />
+        <img src="images/hero-blur.webp" alt="" class="hero-blur-img" aria-hidden="true" loading="eager" />
       </section>
 
       <section class="pain">
@@ -124,7 +137,7 @@
           <h2 class="h2 team-title">One team, full stack.</h2>
 
           <div class="team-card">
-            <img src="images/team-bg.webp" alt="" class="team-card-bg" aria-hidden="true" />
+            <img src="images/team-bg.webp" alt="" class="team-card-bg" aria-hidden="true" loading="lazy" />
             <div class="team-card-overlay" aria-hidden="true"></div>
 
             <div class="team-panel" aria-hidden="true">
@@ -140,7 +153,7 @@
               <div class="team-panel-content">
                 <div class="team-panel-left">
                   <div class="team-avatar">
-                    <img src="images/team-logo.svg" alt="" />
+                    <img src="images/team-logo.svg" alt="" loading="lazy" />
                   </div>
                   <div class="team-panel-text">
                     <div class="team-panel-name">
@@ -290,7 +303,7 @@
 
             <div class="phases-card">
               <div class="phases-card-media">
-                <img src="images/phases-1.svg" alt="" class="phases-card-img" />
+                <img src="images/phases-1.svg" alt="" class="phases-card-img" loading="lazy" />
               </div>
               <div class="phases-card-text">
                 <h4 class="h4">Discovery — 1 week</h4>
@@ -300,7 +313,7 @@
 
             <div class="phases-card">
               <div class="phases-card-media">
-                <img src="images/phases-2.webp" alt="" class="phases-card-img" />
+                <img src="images/phases-2.webp" alt="" class="phases-card-img" loading="lazy" />
               </div>
               <div class="phases-card-text">
                 <h4 class="h4">Design — 2–3 weeks</h4>
@@ -310,7 +323,7 @@
 
             <div class="phases-card">
               <div class="phases-card-media">
-                <img src="images/phases-3.svg" alt="" class="phases-card-img" />
+                <img src="images/phases-3.svg" alt="" class="phases-card-img" loading="lazy" />
               </div>
               <div class="phases-card-text">
                 <h4 class="h4">Build — 3–5 weeks</h4>
@@ -322,9 +335,62 @@
         </div>
       </section>
 
-      <section>
-        <div class="container">
-          <!-- projects -->
+      <section class="projects">
+        <div class="container projects-inner">
+
+          <h2 class="h2 projects-title">Recent projects</h2>
+
+          <div class="projects-stack">
+
+            <article class="project-card">
+              <div class="project-media">
+                <img src="images/project.webp" alt="" loading="lazy" />
+                <span class="project-logo">Logo</span>
+              </div>
+              <div class="project-info">
+                <span class="info-14m-uppercase project-index">01/03</span>
+                <h3 class="h3 project-name">Brightside Dental</h3>
+                <p class="info-16r project-desc">A full rebuild for a multi-location dental practice, cutting load time in half.</p>
+                <a href="#" class="faq-cta-btn project-link">
+                  Next
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-media">
+                <img src="images/project.webp" alt="" loading="lazy" />
+                <span class="project-logo">Logo</span>
+              </div>
+              <div class="project-info">
+                <span class="info-14m-uppercase project-index">02/03</span>
+                <h3 class="h3 project-name">Nordic Supply Co.</h3>
+                <p class="info-16r project-desc">E-commerce redesign with a custom WooCommerce checkout built for speed.</p>
+                <a href="#" class="faq-cta-btn project-link">
+                  Next
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-media">
+                <img src="images/project.webp" alt="" loading="lazy" />
+                <span class="project-logo">Logo</span>
+              </div>
+              <div class="project-info">
+                <span class="info-14m-uppercase project-index">03/03</span>
+                <h3 class="h3 project-name">Fenwick &amp; Row</h3>
+                <p class="info-16r project-desc">Editorial-style portfolio site for a boutique architecture studio.</p>
+                <a href="#" class="faq-cta-btn project-link">
+                  Next
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+              </div>
+            </article>
+
+          </div>
         </div>
       </section>
 
@@ -346,7 +412,7 @@
                   </p>
                 </div>
                 <div class="reviews-person">
-                  <img src="images/review-img.webp" alt="" class="reviews-avatar" />
+                  <img src="images/review-img.webp" alt="" class="reviews-avatar" loading="lazy" />
                   <div class="reviews-person-text">
                     <span class="info-16m">Sandy Patch</span>
                     <span class="reviews-role">CEO</span>
@@ -364,7 +430,7 @@
                   </p>
                 </div>
                 <div class="reviews-person">
-                  <img src="images/review-img.webp" alt="" class="reviews-avatar" />
+                  <img src="images/review-img.webp" alt="" class="reviews-avatar" loading="lazy" />
                   <div class="reviews-person-text">
                     <span class="info-16m">Daniel Cho</span>
                     <span class="reviews-role">Founder</span>
@@ -382,7 +448,7 @@
                   </p>
                 </div>
                 <div class="reviews-person">
-                  <img src="images/review-img.webp" alt="" class="reviews-avatar" />
+                  <img src="images/review-img.webp" alt="" class="reviews-avatar" loading="lazy" />
                   <div class="reviews-person-text">
                     <span class="info-16m">Marta Ilić</span>
                     <span class="reviews-role">Marketing Lead</span>
@@ -417,7 +483,7 @@
 
             <div class="faq-contact">
               <div class="faq-contact-photo">
-                <img src="images/faq-photo.webp" alt="" />
+                <img src="images/faq-photo.webp" alt="" loading="lazy" />
               </div>
               <div class="faq-contact-body">
                 <div class="faq-contact-text">
@@ -716,7 +782,7 @@
 
         <div class="footer-divider"></div>
 
-        <img src="images/footer-logo.svg" alt="Pinxit" class="footer-logo" />
+        <img src="images/footer-logo.svg" alt="Pinxit" class="footer-logo" loading="lazy" />
 
         <nav class="footer-nav">
           <a href="/">Home</a>
