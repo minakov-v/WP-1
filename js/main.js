@@ -136,9 +136,11 @@ function updateProjectsStack() {
     let depth = 0;
     for (let k = i; k < n - 1; k++) depth += progress[k];
 
+    // No opacity on the card itself — that fades its own opaque background
+    // too, letting the card behind bleed through the text. Darkening only
+    // happens on the image scrim (--dim); text just gets a touch of scale.
     card.style.transform = `scale(${1 - depth * 0.06})`;
-    card.style.opacity = String(Math.max(0.5, 1 - depth * 0.35));
-    card.style.setProperty('--dim', String(Math.min(0.55, depth * 0.3)));
+    card.style.setProperty('--dim', String(Math.min(0.6, depth * 0.35)));
   });
 }
 
