@@ -197,6 +197,10 @@ a { text-decoration: none; color: inherit; }
 button { background: none; border: none; cursor: pointer; font: inherit; color: inherit; }
 input, select, textarea { font: inherit; }
 
+a, button {
+  transition: all 300ms ease;
+}
+
 /* Visually hidden but readable by screen readers */
 .sr-only {
   position: absolute;
@@ -418,9 +422,6 @@ input, select, textarea { font: inherit; }
   color: var(--typography-t-10);
 }
 
-.nav-menu-links a:hover {
-  color: var(--primary-pr-orange);
-}
 
 body.nav-open {
   overflow: hidden;
@@ -1171,6 +1172,7 @@ body.nav-open {
   justify-content: center;
 }
 
+
 .reviews-arrow svg {
   width: 20px;
   height: 20px;
@@ -1255,6 +1257,7 @@ body.nav-open {
   color: var(--button-bttn-orange);
   white-space: nowrap;
 }
+
 
 .faq-cta-btn::before,
 .faq-cta-btn::after {
@@ -1583,6 +1586,7 @@ body.nav-open {
   color: var(--typography-t-10);
 }
 
+
 .cf-social-card::before,
 .cf-social-card::after {
   content: '';
@@ -1651,6 +1655,11 @@ body.nav-open {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.footer-logo-link {
+  display: inline-block;
+  line-height: 0;
+}
+
 .footer-logo {
   height: 32px;
   width: auto;
@@ -1668,9 +1677,6 @@ body.nav-open {
   color: var(--typography-t-10);
 }
 
-.footer-nav a:hover {
-  color: var(--primary-pr-orange);
-}
 
 .footer-tagline {
   font-family: var(--font-info-18it-family);
@@ -1832,6 +1838,33 @@ body.nav-open {
 .project-link svg {
   width: 14px;
   height: 14px;
+}
+
+
+/* =============================================
+   HOVER (non-touch devices only)
+   ============================================= */
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-menu-links a:hover {
+    color: var(--primary-pr-orange);
+  }
+
+  .reviews-arrow:hover {
+    background: rgb(255, 238, 230);
+  }
+
+  .faq-cta-btn:hover {
+    background: rgba(255, 85, 0, 0.1);
+  }
+
+  .cf-social-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .footer-nav a:hover {
+    color: var(--primary-pr-orange);
+  }
 }
 
 

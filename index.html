@@ -20,8 +20,7 @@
   <meta name="twitter:description" content="Pinxit redesigns and rebuilds WordPress sites for brands that want to stop looking like a template. Custom design, clean code, fast performance — no page builders." />
   <meta name="twitter:image" content="https://minakov-v.github.io/WP-1/images/hero-bg.webp" />
 
-  <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'; this.onload=null;" />
-  <noscript><link rel="stylesheet" href="css/style.css" /></noscript>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
@@ -801,7 +800,9 @@
 
         <div class="footer-divider"></div>
 
-        <img src="images/footer-logo.svg" alt="Pinxit" class="footer-logo" loading="lazy" />
+        <a href="/" class="footer-logo-link" aria-label="Pinxit — home">
+          <img src="images/footer-logo.svg" alt="Pinxit" class="footer-logo" loading="lazy" />
+        </a>
 
         <nav class="footer-nav">
           <a href="/">Home</a>
