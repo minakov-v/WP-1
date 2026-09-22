@@ -73,12 +73,20 @@ if (navBurger && navMenu) {
   });
 }
 
+// Reviews slider. The rating cell next to it is static markup, so the swiper
+// only owns the review cells — 3 across on desktop, like the Figma layout.
 new Swiper('#review-swiper', {
   slidesPerView: 1,
   loop: true,
-  navigation: {
-    nextEl: '#btn-next',
-    prevEl: '#btn-prew',
+  loopAddBlankSlides: false,
+  watchOverflow: true,
+  pagination: {
+    el: '.reviews-pagination',
+    clickable: true,
+  },
+  breakpoints: {
+    768: { slidesPerView: 2 },
+    1280: { slidesPerView: 3 },
   },
 });
 
@@ -144,14 +152,56 @@ function updateProjectsStack() {
   });
 }
 
-if (projectCards.length) {
+// Hero cards (mobile) — the stacking itself is pure CSS sticky. This only
+// publishes the scene's progress as --p on the stage, which the cards turn
+// into their fan angle. Progress is read off the STAGE, never off the cards:
+// the stage is neither sticky nor rotated, so nothing here can feed back into
+// the transform it drives.
+const heroStage = document.querySelector('.hero-cards');
+const heroCards = document.querySelectorAll('.hero-card');
+
+// Distance the last card travels to land on the pile. offsetTop on a stuck
+// element already includes the sticky shift, so measure it out of sticky.
+let heroSpan = 0;
+
+function measureHeroSpan() {
+  if (!heroStage || heroCards.length < 2) return;
+  const saved = Array.from(heroCards, (c) => c.style.position);
+  heroCards.forEach((c) => (c.style.position = 'static'));
+  heroSpan = heroCards[heroCards.length - 1].offsetTop;
+  heroCards.forEach((c, i) => (c.style.position = saved[i]));
+}
+
+function updateHeroFan() {
+  if (!heroStage || !heroCards.length) return;
+
+  // desktop keeps the fixed fanned layout
+  if (getComputedStyle(heroCards[0]).position !== 'sticky') {
+    heroStage.style.removeProperty('--p');
+    return;
+  }
+
+  if (!heroSpan) measureHeroSpan();
+  if (!heroSpan) return;
+
+  const stickyTop = parseFloat(getComputedStyle(heroCards[0]).top) || 0;
+  const p = (stickyTop - heroStage.getBoundingClientRect().top) / heroSpan;
+  heroStage.style.setProperty('--p', String(Math.min(1, Math.max(0, p))));
+}
+
+if (projectCards.length || heroCards.length) {
+  const update = () => {
+    updateProjectsStack();
+    updateHeroFan();
+  };
+
   let ticking = false;
   window.addEventListener(
     'scroll',
     () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          updateProjectsStack();
+          update();
           ticking = false;
         });
         ticking = true;
@@ -159,6 +209,10 @@ if (projectCards.length) {
     },
     { passive: true }
   );
-  window.addEventListener('resize', updateProjectsStack);
-  updateProjectsStack();
+  window.addEventListener('resize', () => {
+    measureHeroSpan();
+    update();
+  });
+  measureHeroSpan();
+  update();
 }

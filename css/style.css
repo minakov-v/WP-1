@@ -167,7 +167,8 @@
   /* =============================================
      LAYOUT
      ============================================= */
-  --container-padding: clamp(20px, 3.125vw, 50px);
+  /* figma: 50px on the 1600 board, 16px on the 390 one */
+  --container-padding: clamp(16px, 3.125vw, 50px);
 }
 
 
@@ -433,10 +434,12 @@ body.nav-open {
    ============================================= */
 
 .hero {
-  --hero-blur-h: clamp(60px, 10vw, 164px);
+  --hero-blur-h: clamp(100px, 15vw, 240px);
   position: relative;
   background: var(--background-bg-black);
-  overflow: hidden;
+  /* clip, not hidden — hidden would make this a scroll container and kill
+     the sticky card stack on mobile */
+  overflow: clip;
 }
 
 .hero-bg-img {
@@ -445,7 +448,6 @@ body.nav-open {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  mix-blend-mode: hard-light;
   pointer-events: none;
   user-select: none;
 }
@@ -572,15 +574,16 @@ body.nav-open {
   display: flex;
   flex-direction: column;
   gap: clamp(28px, 4vw, 52px);
-  padding-top: clamp(16px, 2vw, 20px);
-  padding-bottom: clamp(36px, 6vw, 60px);
+  padding-top: clamp(36px, 8vw, 80px);
+  padding-bottom: clamp(48px, 10vw, 120px);
 }
 
 .pain-header {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
 }
 
 .pain-title {
@@ -588,47 +591,39 @@ body.nav-open {
 }
 
 .pain-subtitle {
-  flex-shrink: 0;
-  text-align: right;
   color: var(--typography-t-90);
 }
 
 .pain-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(12px, 1.5vw, 20px);
+  gap: 12px;
 }
 
 .pain-card {
-  background: var(--background-bg-grey);
-  padding: clamp(24px, 3vw, 40px);
   display: flex;
   flex-direction: column;
-  gap: clamp(32px, 4vw, 60px);
+  gap: 20px;
 }
 
-.pain-icon {
-  width: clamp(44px, 3.25vw, 52px);
-  height: clamp(44px, 3.25vw, 52px);
-  background: var(--background-bg-black);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+.pain-media {
+  width: 100%;
+  aspect-ratio: 492 / 520;
   border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  overflow: hidden;
 }
 
-.pain-icon svg {
-  width: 50%;
-  height: 50%;
-  color: var(--primary-pr-orange);
+.pain-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .pain-card-text {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding-right: 20px;
 }
 
 .pain-card-text h4,
@@ -1018,8 +1013,8 @@ body.nav-open {
   height: 24px;
   flex-shrink: 0;
   border-radius: 100px;
-  background: var(--other-grey-20);
-  color: var(--typography-t-90);
+  background: var(--primary-pr-orange);
+  color: var(--default-default-10);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1071,70 +1066,136 @@ body.nav-open {
    ============================================= */
 
 .reviews {
-  background: var(--default-default-10);
+  background: var(--background-bg-grey);
   color: var(--typography-t-90);
 }
 
 .reviews-inner {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 3vw, 40px);
-  padding-top: clamp(48px, 10vw, 120px);
-  padding-bottom: clamp(48px, 10vw, 120px);
+  gap: clamp(20px, 2.5vw, 32px);
+  padding-top: clamp(36px, 6vw, 60px);
+  padding-bottom: clamp(36px, 6vw, 60px);
 }
 
-/* Swiper core layout — no swiper.css, so we provide the essentials */
+.reviews-row {
+  display: flex;
+  align-items: stretch;
+  background: var(--default-default-10);
+}
+
+/* Static rating cell — same 25% width as one review cell, not part of the swiper */
+.reviews-rating {
+  flex: 0 0 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 2.2vw, 35px);
+  padding: clamp(24px, 3.5vw, 57px) 20px;
+  border-right: 1px solid rgba(20, 20, 20, 0.1);
+  text-align: center;
+}
+
+.reviews-rating-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.reviews-score-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reviews-score {
+  font-family: var(--font-h1-family);
+  font-weight: 700;
+  font-size: clamp(64px, 7.75vw, 124px);
+  line-height: 1.2;
+  letter-spacing: -0.05em;
+  color: var(--typography-t-90);
+  opacity: 0.15;
+}
+
+.reviews-stars {
+  display: flex;
+  font-size: clamp(18px, 1.8vw, 28.6px);
+  gap: 8.169px; /* fixed in figma on both boards, doesn't scale with the star */
+}
+
+.reviews-stars svg {
+  width: 1em;
+  height: 1em;
+  color: #e4d651;
+}
+
+.reviews-rating-text {
+  color: var(--typography-t-90);
+}
+
+/* figma: 102x29 on the 1600 board, 70.4x20 on the 390 one */
+.reviews-badge {
+  width: clamp(70.422px, 6.4vw, 102px);
+  height: auto;
+}
+
+/* Swiper core layout — no swiper.css, so we provide the essentials here.
+   Keep the root free of padding/flex: Swiper measures it to size the slides. */
 .review-swiper {
   position: relative;
+  flex: 1 1 0;
+  min-width: 0;
   overflow: hidden;
+  touch-action: pan-y;
 }
 
 .review-list.swiper-wrapper {
   display: flex;
+  box-sizing: content-box;
+  /* without swiper.css the default `all` would animate width/colour too */
+  transition-property: transform;
+  transform: translate3d(0, 0, 0);
 }
 
 .review-item.swiper-slide {
+  box-sizing: border-box;
   flex-shrink: 0;
   width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 24px;
+  gap: clamp(32px, 5vw, 99px);
+  min-height: clamp(300px, 26.5vw, 423px);
+  padding: clamp(20px, 1.5vw, 24px) clamp(20px, 1.75vw, 28px);
+  border-right: 1px solid rgba(20, 20, 20, 0.1);
+  transition-property: transform;
 }
 
-.reviews-text {
+.review-head {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: clamp(16px, 1.5vw, 24px);
 }
 
-.reviews-label {
+.reviews-company {
   color: var(--typography-t-90);
   opacity: 0.35;
 }
 
 .reviews-quote {
-  color: var(--typography-t-90);
-}
-
-.reviews-quote .quote-dim {
+  font-family: var(--font-h1-family);
+  font-weight: 500;
+  font-size: clamp(16px, 1.375vw, 22px);
+  line-height: 1.2;
   color: var(--typography-t-50);
 }
 
-.reviews-person {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.reviews-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 100px;
-  object-fit: cover;
-  background: var(--other-grey-20);
+.reviews-quote .quote-strong {
+  color: var(--typography-t-90);
 }
 
 .reviews-person-text {
@@ -1153,29 +1214,27 @@ body.nav-open {
   line-height: var(--font-info-16r-lh);
 }
 
-.reviews-nav {
-  position: absolute;
-  right: 0;
-  bottom: 0;
+.reviews-pagination {
   display: flex;
-  gap: 12px;
-}
-
-.reviews-arrow {
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--primary-pr-orange);
-  color: var(--primary-pr-orange);
-  background: var(--default-default-10);
-  display: flex;
-  align-items: center;
   justify-content: center;
+  gap: 10px;
 }
 
+.reviews-pagination.swiper-pagination-lock {
+  display: none;
+}
 
-.reviews-arrow svg {
-  width: 20px;
-  height: 20px;
+.reviews-pagination .swiper-pagination-bullet {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(20, 20, 20, 0.15);
+  cursor: pointer;
+}
+
+.reviews-pagination .swiper-pagination-bullet-active {
+  background: var(--typography-t-90);
 }
 
 
@@ -1850,10 +1909,6 @@ body.nav-open {
     color: var(--primary-pr-orange);
   }
 
-  .reviews-arrow:hover {
-    background: rgb(255, 238, 230);
-  }
-
   .faq-cta-btn:hover {
     background: rgba(255, 85, 0, 0.1);
   }
@@ -1905,11 +1960,8 @@ body.nav-open {
 
   .pain-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 12px;
-  }
-  .pain-subtitle {
-    text-align: left;
   }
 
   .faq-inner {
@@ -1935,33 +1987,114 @@ body.nav-open {
     gap: 16px;
   }
 
+  /* Cards turn into a sticky stack: they scroll past one under another
+     (figma frame 1) and pile up with Performance on top (figma frame 2).
+     JS only feeds --depth; the transform itself is pure CSS. */
+  /* Pin the backdrop to the viewport for the whole scroll scene: it takes a
+     screen of flow, sticks at the top, then the negative margin gives the
+     space straight back so nothing below shifts. */
+  .hero-bg-img {
+    position: sticky;
+    inset: auto;
+    top: 0;
+    display: block;
+    height: 100vh;
+    margin-bottom: -100vh;
+  }
+
   .hero-cards {
-    aspect-ratio: 1 / 1.08;
+    aspect-ratio: auto;
     margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+
+  /* Upright and untransformed on mobile — no rotation, no scale. Purely the
+     same sticky mechanic as the projects section: each card lands 40px below
+     the one before it. No trailing spacer either: any sticky room left after
+     the last card arrives would eat the gap below the stack as you scroll. */
+  .hero-card {
+    position: sticky;
+    left: auto;
+    width: 88%;
+    /* --p is the scene progress (0 while the cards scroll in, 1 once the
+       stack has landed); JS sets it on .hero-cards and it inherits here. */
+    transform: rotate(calc(var(--rot, 0deg) * var(--p, 0)));
+  }
+
+  /* Same top for all three, so each one lands exactly on the last and the
+     stack ends up as a single card rather than a staircase.
+     The gaps are margin-TOP on the following card, never margin-bottom: a
+     card's own bottom margin counts inside its sticky range and would set
+     it loose that much sooner, before the next card had landed on it. */
   .hero-card--design {
-    left: 32cqw;
-    top: 10cqw;
-    width: 48cqw;
-    transform: translateX(-50%) rotate(-8deg);
-  }
-  .hero-card--perf {
-    left: 68cqw;
-    top: 10cqw;
-    width: 48cqw;
+    --rot: -10deg;
+    top: 120px;
+    z-index: 1;
   }
   .hero-card--code {
-    left: 50cqw;
-    top: 42cqw;
-    width: 54cqw;
+    --rot: -3deg;
+    top: 120px;
+    z-index: 2;
+    margin-top: 80px;
+  }
+  .hero-card--perf {
+    --rot: 3deg;
+    top: 120px;
+    z-index: 3;
+    margin-top: 40px;
   }
 
   .pain-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .pain-grid::-webkit-scrollbar {
+    display: none;
+  }
+  .pain-card {
+    scroll-snap-align: center;
+    flex: 0 0 87.7%; /* figma: 314 of the 358 content width */
+  }
+  .pain-media {
+    aspect-ratio: 314 / 364;
   }
 
+  /* figma: two 169px columns at x=0 / x=189 on the 358 grid, rows 40 apart */
   .team-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 20px;
+  }
+  .team-feature-icon {
+    width: 36px;
+    height: 36px;
+  }
+  .team-feature-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* figma: 20px icon, 6px to the label, items 12px apart */
+  .phases-checks {
+    gap: 12px;
+  }
+  .phases-check {
+    gap: 6px;
+  }
+  .phases-check .info-18r {
+    font-size: 16px;
+  }
+  .phases-check-icon {
+    width: 20px;
+    height: 20px;
   }
 
   .phases-grid {
@@ -1976,13 +2109,82 @@ body.nav-open {
     display: none;
   }
 
+  /* figma mobile board: the card is 358x280 and the panel sits above centre */
   .team-card {
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 358 / 280;
   }
 
   .team-panel {
-    width: 90%;
-    top: 40%;
+    width: 88%;
+    top: 35%;
+  }
+  /* the card is only 280px tall here, so the panel's innards scale down to
+     keep the figma proportion (panel ≈ 28% of the card height) */
+  .team-panel-header {
+    padding: 7px 12px;
+  }
+  .team-panel-content {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .team-avatar {
+    width: 30px;
+  }
+  .team-panel-name .h4 {
+    font-size: 14px;
+  }
+
+  .reviews-row {
+    flex-direction: column;
+  }
+  /* Mobile reviews — figma 1066:2245 (390px board) */
+  .reviews-inner {
+    gap: 20px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .reviews-rating {
+    flex: none;
+    width: 100%;
+    gap: 20px;
+    padding: 20px;
+    border-right: none;
+    border-bottom: 1px solid rgba(20, 20, 20, 0.1);
+  }
+  .reviews-rating-top {
+    gap: 12px;
+  }
+  .reviews-score {
+    font-size: 56px;
+  }
+  .reviews-stars {
+    font-size: 24px;
+  }
+  .reviews-rating-text {
+    font-size: 14px;
+    letter-spacing: -0.02em;
+  }
+
+  /* the row is a column here — `flex: 1 1 0` would resolve the basis
+     against the height and collapse the swiper to 0 */
+  .review-swiper {
+    flex: none;
+    width: 100%;
+  }
+
+  /* one card per view — a right border would just hug the row edge */
+  .review-item.swiper-slide {
+    gap: 60px;
+    min-height: 337px;
+    padding: 20px;
+    border-right: none;
+  }
+  .review-head {
+    gap: 24px;
+  }
+  .reviews-quote {
+    font-size: 20px;
   }
 
   .project-info {
@@ -2010,7 +2212,7 @@ body.nav-open {
   }
 
   .team-panel-role {
-    font-size: 16px;
+    font-size: 12px;
   }
 
   .faq-contact {
@@ -2052,11 +2254,22 @@ body.nav-open {
     width: 100%;
   }
 
+  /* figma: 346x63 rows, icon left / label right, 12px apart */
   .cf-socials {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
   .cf-social-card {
-    aspect-ratio: 2 / 1;
+    aspect-ratio: auto;
+    height: 63px;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
+  }
+  .cf-social-card::before,
+  .cf-social-card::after {
+    width: 8px;
+    height: 8px;
   }
 }
 
